@@ -1,0 +1,43 @@
+/*E1-14 write a program to print a histogram of the frequencies of different charathers in its input */
+#include <stdio.h>
+
+int c, n; /* a variable for getchar(), using n in for */
+int a[26]; /* 0-21 array for storing frequencies of each characthers, 'A'-65 will designate address */
+int max;  /* a variable for max value */
+
+main(){
+	
+	/* Part 1 : Stores frequencies to the array */
+	for(n = 0;n <= 25;n++)
+		a[n] = 0;
+	
+	while((c = getchar()) != EOF){
+       while(c >= 97 && c <= 122){
+		   ++a[c-97];
+	   }	
+	}
+	
+	/* Part 2 : Find Max value from the array for printing histogram in vertical way*/
+	max = 0;
+	for(n = 0;n <= 25;n++){
+		if(max <= a[n])
+		  max = a[n];
+	}
+	
+	/* Part 3 : Print a histogram in vertical way */
+	while(max > 0){
+	  for(n = 0;n<=25;n++){
+	    if(max <= a[n])
+		  printf("*");
+	    else printf(" ");
+	  }
+	  max = max - 1;
+	}
+	printf("\n");
+	for(n = 0;n <= 25;n++)
+		printf("-");
+	printf("\n");
+	for(n = 0;n <= 25;n++)
+		putchar(n + 97);
+	printf("\n");
+}
