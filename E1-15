@@ -1,19 +1,17 @@
 /* E1-15 use a function to convert fahrenheit to celsious */
 #include <stdio.h>
-float f, c;
 
 float conv(float f);
 float conv(float f)
-{float f, c;
+{float c;
 c = (5.0/9.0)*(f - 32);
 return c;
 }
 
 main(){
-float  f, c;
-int n;
-printf("Fahr￦tCel￦n");
-for(n = 0; n <= 100; n + 10)
-printf("%f￦t%f￦n", n, conv(n));
+float n;
+printf("Fahr\tCel\n");
+for(n = 0; n <= 100; n = n + 10)
+printf("%f\t%f\n", n, conv(n));
 return 0;
 }
