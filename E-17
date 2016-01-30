@@ -1,0 +1,49 @@
+/* E1-17 : A program to print all input lines that are longer than 80 characters */
+#include <stdio.h>
+#define MAXLINE 1000
+
+int gline(char s[], int lim);
+int sline(char store[], char from[], int s_i);
+
+int gline(char s[], int lim)
+{
+    int length, i, c;
+
+    for(i=0;i<lim-1 && (c = getchar()) != EOF && c != '\n';++i)
+        s[i] = c;
+    if(c == '\n'){
+      s[i] = c;
+      ++i;
+    }
+      s[i] = '\0';
+    return i;
+}
+
+
+int sline(char store[], char from[], int s_i)
+{
+  int i;
+
+  i = 0;
+
+  while ((store[s_i] = from[i]) != '\0'){
+     ++i;
+     ++s_i;
+  }
+  return s_i;
+}
+
+
+main()
+{
+  char s[MAXLINE], store[MAXLINE];
+  int i, lim, len, c, s_i;
+  i = 0;
+
+  while((len = gline(s, MAXLINE)) > 0){
+    if(len > 80)
+    s_i =  sline(store, s, s_i);
+  }
+  printf("value of s_i=%d\nlist of lines that longer than 80 :\n%s\n",s_i, store);
+  return 0;
+}
