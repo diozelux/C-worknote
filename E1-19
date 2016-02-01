@@ -1,0 +1,71 @@
+/* E1-19 write a function reverse(s) that revers the charater string s. Use it to write a program that reverses its input a line at a time */
+
+#include <stdio.h>
+#define MAXLINE 1000
+
+int gline(char s[], int maxline); /*get line*/
+int reverse(char store[], char from[], int s_i); /*reverse a line*/
+
+/* Function 1 : Getline */
+int gline(char s[], int lim)
+{
+  int c, i; /* getchar() variable */
+
+  for(i = 0;i < lim-1 && (c=getchar()) != EOF && c!='\n'; ++i)
+      s[i] = c;
+  if(c == '\n'){
+    s[i] = c;
+    ++i;
+  }
+  s[i] = '\0';
+  return i;
+}
+
+
+
+/* Function 2 : Reverse lines */
+int reverse(char store[], char from[], int s_i)
+{
+  int i, n;
+  i = 0;
+
+  while((from[i] != '\n') && (from[i] != EOF))
+       ++ i;
+    if(from[i] == '\n'){
+       while(i-1 >= 0){
+         store[s_i] = from[i-1];
+         --i;
+         ++s_i;
+       }
+       store[s_i] = '\n';
+       ++s_i;
+       store[s_i] = '\0';
+    }
+    else while(i-1 >= 0){
+         store[s_i] = from[i-1];
+          --i;
+          ++s_i;
+      }
+      store[s_i] = '\0';
+        return s_i;
+}
+
+
+
+
+/* main part */
+main()
+{
+  int i, c, len, max, s_i;
+  char s[MAXLINE], store[MAXLINE];
+
+  s_i = 0;
+  max = 0;
+  while((len = gline(s, MAXLINE)) > 0){
+
+       s_i = reverse(store, s, s_i);
+  }
+       printf("reversed result:\n%s\n", store);
+
+  return 0;
+}
