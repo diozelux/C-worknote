@@ -1,0 +1,59 @@
+* Write a program to remove trailing blanks and thab from each line of input, and to delete entirely blank lines */
+
+#include <stdio.h>
+#define MAXLINE 1000
+
+int gline(char s[], int maxline); /*get line*/
+int sline(char store[], char from[], int s_i, int len); /*revise a line*/
+
+/* Function 1 : Getline */
+int gline(char s[], int lim)
+{
+  int c, i; /* getchar() variable */
+
+  for(i = 0;i < lim-1 && (c=getchar()) != EOF && c!='\n'; ++i)
+      s[i] = c;
+  if(c == '\n'){
+    s[i] = c;
+    ++i;
+  }
+  s[i] = '\0';
+  return i;
+}
+
+/* Function 2 : Store input lines */
+int sline(char store[], char from[], int s_i, int len)
+{
+  int i, n;
+  i = 0;
+  while(from[i] != '\n') /* check the address of '\n' */
+       ++i;
+  if(i > 0){
+    -- i;
+    while(i > 0 && (from[i] == (' '||'\t'))){ /* revise the trailing one */
+          from[i] = from[i+1];
+          from[i+1] = '\0';
+          --i;
+    }
+  }
+  /* store edited lines */
+  i = 0;
+  while((store[s_i] = from[i]) != '\0'){
+        ++i;
+        ++s_i;
+  }
+  return s_i;
+}
+
+/* main part */
+main()
+{
+  int i, c, len, max, s_i;
+  char s[MAXLINE], store[MAXLINE];
+
+  max = 0;
+  while((len = gline(s, MAXLINE)) > 0)
+       s_i = sline(store, s, s_i, len);
+  printf("Value of s_i = %d\nOriginal array : %s\nrevised result:\n%s\n", s_i, s, store);
+  return 0;
+}
