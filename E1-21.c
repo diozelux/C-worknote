@@ -1,5 +1,5 @@
 /*E1-21. Write a program entab that 
-replaces strings of blanck by the minimum number of tabs and blanks to achieve the same spacing.
+replaces strings of blank by the minimum number of tabs and blanks to achieve the same spacing.
 Use the same tab stops as for detab. 
 When either a tab or a single blank would suffice to reach a tab stop, which should be given preference? */
 
@@ -17,33 +17,42 @@ int gline(char s[], int lim);
  */
 void entab(char in[MAXLINE], char out[MAXLINE], int lim)
 {
-     int flag, o_i, s_i, blnum, bl_start, n, n_b, i, blend;
-  
-     for(s_i = 0; s_i <= lim; ++s_i){
-        if(in[s_i] != ' '){
-          out[o_i] = in[s_i];
-          blnum = 0;
-        }
-        n = 0;
-       while(in[s_i + n] == ' '){
-                  ++ blnum;
-                  ++ n;
-        }
-        blend = s_i + n -1;
-
-        n_b = blend/8; // number of tab
-        n = blend % 8; // number of blank
-        for(i = 0; i < n_b; ++i){
-          out[o_i] = '\t';
-          ++o_i;
-        }
-        for(i = 0; i < n; ++i){
-           out[o_i] = ' ';
-           ++o_i;
-        }
-        ++o_i;       
-        s_i = blend + 1;
-      }
+     int ori_i, edi_i, bl_start, bl_end; //array address counter _i, blank address counter bl_
+	 int n, i; // for counter
+	 int num_t, num_s;//number of tab, number of space
+	 ori_i, edi_i, bl_start, bl_end = 0; //variable initialize
+	 
+     while(in[ori_i] != '\0')
+	 {
+		while(in[ori_i]!=' ' && in[ori_i]!='\0')
+		{
+			  out[edi_i] = in[ori_i];
+			  ++edi_i;
+			  ++ori_i;
+		}
+	 
+		if(in[ori_i]== ' ' && bl_start == '0')
+			bl_start=ori_i;
+	 
+		while(in[ori_i]==' ')
+			++ori_i;
+	 
+		bl_end = ori_i;		//end address of the last blank.
+		num_t = (bl_end/8) - (bl_start)/8;		//number of tab
+		num_s = bl_end % 8;		//number of space
+	 	 
+		for(n=0;n<=num_t;++n)
+		{
+			out[edi_i]='\t';
+			++edi_i;
+		}	 
+		for(n=0;n<num_s;++n)
+		{
+			out[edi_i]=' ';
+			++edi_i;
+		}
+		bl_start = 0; //initialize bl_start to reuse in 'while'
+	 }
 }
 
 /*getline function*/
