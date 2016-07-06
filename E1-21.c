@@ -17,56 +17,64 @@ int gline(char s[], int lim);
  */
 void entab(char in[MAXLINE], char out[MAXLINE], int lim)
 {
-     int ori_i, edi_i, bl_start, bl_end; //array address counter _i, blank address counter bl_
+     int ori_i, edi_i, bl_start, bl_end, bl_counter; //array address counter _i, blank address counter bl_
 	 int n, i; // for counter
 	 int num_t, num_s;//number of tab, number of space
-	 ori_i, edi_i, bl_start, bl_end = 0; //variable initialize
+	 ori_i=edi_i=bl_start=bl_end = 0; //variable initialize
 	 
-     while(in[ori_i] != '\0')
+     for(ori_i=0;ori_i<=lim;++ori_i)
 	 {
-		while(in[ori_i]!=' ' && in[ori_i]!='\0')
-		{
+		if(in[ori_i] != ' '){
 			  out[edi_i] = in[ori_i];
 			  ++edi_i;
-			  ++ori_i;
 		}
-	 
-		if(in[ori_i]== ' ' && bl_start == '0')
+		else if(in[ori_i]== ' ' && bl_start == '0'){
 			bl_start=ori_i;
+			bl_end=ori_i;
+			if(in[ori_i+1]==' '){
+				while(in[ori_i+1]==' '){
+					++bl_end;
+					++ori_i;
+				}
 	 
-		while(in[ori_i]==' ')
-			++ori_i;
-	 
-		bl_end = ori_i;		//end address of the last blank.
-		num_t = (bl_end/8) - (bl_start)/8;		//number of tab
-		num_s = bl_end % 8;		//number of space
+		
+				num_t = (bl_end/8) - (bl_start/8);		//number of tab
+				num_s = bl_end % 8;						//number of space
 	 	 
-		for(n=0;n<=num_t;++n)
-		{
-			out[edi_i]='\t';
+				for(n=0;n<num_t;++n)
+				{
+					out[edi_i]='\t';
+					++edi_i;
+				}
+				for(n=0;n<num_s;++n)
+				{
+					out[edi_i]=' ';
+					++edi_i;
+				}
+				ori_i = ++bl_end;
+			}
+			else
+			{
+			out[edi_i] = in[ori_i];
 			++edi_i;
-		}	 
-		for(n=0;n<num_s;++n)
-		{
-			out[edi_i]=' ';
-			++edi_i;
+			}
+			bl_start = 0;
 		}
-		bl_start = 0; //initialize bl_start to reuse in 'while'
 	 }
 }
 
 /*getline function*/
-int gline(char s[MAXLINE], int lim)
+int gline(char in[MAXLINE], int lim)
 {
     int c, i;
-
-    for(i = 0; i < lim-1 && (c = getchar()) != EOF && c != '\n'; ++i)
-       s[i] = c;
+    for(i = 0;i < lim-1 && (c = getchar()) != EOF && c != '\n';i++){
+       in[i] = c;
+	}
     if (c == '\n'){
-        s[i] = c;
+        in[i] = c;
         ++i;
     }
-    s[i] = '\0';
+    in[i] = '\0';
     return i;
 }
 
@@ -75,9 +83,11 @@ int gline(char s[MAXLINE], int lim)
 int main(){
     char s[MAXLINE], in[MAXLINE], out[MAXLINE];
     int len, lim;
-
-    while((len = gline(s, lim)) > 0)
-         entab(in, out, len);
-    if(len > 0)
-      printf("%s\n", out);
+	lim = MAXLINE;
+    if((len = gline(in, lim)) != 0)
+		entab(in, out, len);
+    if(len > 0){
+      printf("out:%s\n", out);
+	  printf("in:%s\n", in);
+	}
 }
